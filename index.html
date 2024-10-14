@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire GIPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        .question-container {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="submit"], .reset-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover, .reset-btn:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .score-container {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .score-success {
+            color: green;
+        }
+        .score-fail {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Questionnaire GIPS</h2>
+
+    <form id="quizForm">
+        <!-- Question 1 -->
+        <div class="question-container">
+            <p><strong>Question 1: Which of the following is a key characteristic of the Global Investment Performance Standards (GIPS)?</strong></p>
+            <div id="answerOptions1"></div>
+            <input type="submit" value="Submit Question 1" class="submitBtn" data-question="1">
+            <div class="message" id="message1"></div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-container">
+            <p><strong>Question 2: According to the Standards of Practice Handbook, a member who is an investment manager is least likely to breach his duty to clients by:</strong></p>
+            <div id="answerOptions2"></div>
+            <input type="submit" value="Submit Question 2" class="submitBtn" data-question="2">
+            <div class="message" id="message2"></div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-container">
+            <p><strong>Question 3: Carla Scott, CFA, is a portfolio manager for a company that manages investment accounts for wealthy individuals. Does Scott’s method of allocating oversubscribed IPOs violate any CFA Institute Standards of Professional Conduct?</strong></p>
+            <div id="answerOptions3"></div>
+            <input type="submit" value="Submit Question 3" class="submitBtn" data-question="3">
+            <div class="message" id="message3"></div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-container">
+            <p><strong>Question 4: Kim Li, CFA, is a portfolio manager for an investment advisory firm. Li’s least likely initial course of action must be to:</strong></p>
+            <div id="answerOptions4"></div>
+            <input type="submit" value="Submit Question 4" class="submitBtn" data-question="4">
+            <div class="message" id="message4"></div>
+        </div>
+    </form>
+
+    <!-- Score and previous score -->
+    <div class="score-container" id="scoreContainer"></div>
+    <div class="score-container" id="previousScoreContainer"></div>
+
+    <button class="reset-btn" id="resetBtn">Reset</button>
+
+    <script>
+        // Correct answers
+        const correctAnswers = {
+            1: "rely on the integrity of input data.",
+            2: "using client brokerage to purchase goods or services that are used in the investment decision-making process.",
+            3: "Yes, because she has breached her duty to her uncle.",
+            4: "suspend the employee."
+        };
+
+        // Answer choices for each question
+        const answerChoices = {
+            1: [
+                { text: "rely on the integrity of input data." },
+                { text: "consist of required provisions for firms to follow to achieve best practice." },
+                { text: "must be applied with the goal of achieving excellence in performance presentation." }
+            ],
+            2: [
+                { text: "disclosing confidential client information to the CFA Institute Professional Conduct Program." },
+                { text: "using client brokerage to purchase goods or services that are used in the investment decision-making process." },
+                { text: "consistently supporting management’s recommendations by voting with management on proxies related to non-routine governance issues." }
+            ],
+            3: [
+                { text: "No." },
+                { text: "Yes, because she has breached her duty to her uncle." },
+                { text: "Yes, because she has not precleared and reported her Uncle’s transactions." }
+            ],
+            4: [
+                { text: "suspend the employee." },
+                { text: "increase supervision of Marshall." },
+                { text: "initiate an investigation to determine the extent of the wrongdoing." }
+            ]
+        };
+
+        let correctCount = 0;
+        let totalQuestions = 4;
+        let previousScore = null;
+        const incorrectQuestions = [];
+
+        // Function to shuffle array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to render answer choices for a question
+        function renderChoices(questionNumber) {
+            const shuffledChoices = shuffle([...answerChoices[questionNumber]]); // Shuffle the answer choices
+            const answerOptionsDiv = document.getElementById(`answerOptions${questionNumber}`);
+            answerOptionsDiv.innerHTML = ''; // Clear previous options
+
+            shuffledChoices.forEach((choice, index) => {
+                const id = String.fromCharCode(65 + index); // Convert index to A, B, C
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `option${questionNumber}_${id}`;
+                input.name = `answer${questionNumber}`;
+                input.value = choice.text; // Store the text as the value
+
+                const label = document.createElement('label');
+                label.htmlFor = `option${questionNumber}_${id}`;
+                label.innerText = `${id}. ${choice.text}`; // Display A, B, C with text
+
+                answerOptionsDiv.appendChild(input);
+                answerOptionsDiv.appendChild(label);
+                answerOptionsDiv.appendChild(document.createElement('br'));
+            });
+        }
+
+        // Render all questions initially
+        function renderAllChoices() {
+            renderChoices(1);
+            renderChoices(2);
+            renderChoices(3);
+            renderChoices(4);
+        }
+
+        // Check the user's answer for a specific question
+        function checkAnswer(questionNumber) {
+            const selectedOption = document.querySelector(`input[name="answer${questionNumber}"]:checked`);
+            const messageDiv = document.getElementById(`message${questionNumber}`);
+            const options = document.querySelectorAll(`input[name="answer${questionNumber}"]`);
+
+            if (!selectedOption) {
+                messageDiv.innerHTML = `Please select an answer for Question ${questionNumber}.`;
+                return false;
+            }
+
+            // Get the letter (A, B, C) corresponding to the selected answer
+            const selectedOptionId = selectedOption.id.split('_')[1]; // Extracts A, B, C
+            const correctOptionId = Array.from(options).find(opt => opt.value === correctAnswers[questionNumber]).id.split('_')[1];
+
+            // Custom messages for each question with "chapitre 4" on a new line
+            const messages = {
+                correct: {
+                    1: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    2: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    3: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    4: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`
+                },
+                incorrect: {
+                    1: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    2: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    3: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    4: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`
+                }
+            };
+
+            if (selectedOption.value === correctAnswers[questionNumber]) {
+                messageDiv.innerHTML = messages.correct[questionNumber];
+                messageDiv.className = "message correct";
+                correctCount++;
+            } else {
+                messageDiv.innerHTML = messages.incorrect[questionNumber];
+                messageDiv.className = "message incorrect";
+                incorrectQuestions.push(`Question ${questionNumber}`);
+            }
+
+            // Disable the radio buttons after submission
+            options.forEach(input => {
+                input.disabled = true;
+            });
+
+            // If all questions have been answered, calculate and display the score
+            if (document.querySelectorAll('input[type="radio"]:disabled').length === totalQuestions * 3) {
+                displayFinalScore();
+            }
+        }
+
+        // Display final score in %
+        function displayFinalScore() {
+            const scorePercentage = (correctCount / totalQuestions) * 100;
+            const scoreContainer = document.getElementById('scoreContainer');
+            const previousScoreContainer = document.getElementById('previousScoreContainer');
+
+            // Display the score message
+            if (scorePercentage >= 70) {
+                scoreContainer.innerHTML = `Le score est ${scorePercentage.toFixed(2)}%. Bravo, tu as atteint le score minimum requis pour être bien à l'exam !`;
+                scoreContainer.className = "score-container score-success";
+            } else {
+                scoreContainer.innerHTML = `Le score est ${scorePercentage.toFixed(2)}%. Il te reste encore un peu de travail, courage !`;
+                scoreContainer.className = "score-container score-fail";
+            }
+
+            // Display the previous score
+            if (previousScore !== null) {
+                previousScoreContainer.innerHTML = `Le score précédent était ${previousScore.toFixed(2)}%.`;
+            }
+
+            // Save the current score as the previous score for next time
+            previousScore = scorePercentage;
+
+            // Display the incorrect questions
+            if (incorrectQuestions.length > 0) {
+                scoreContainer.innerHTML += `<br>Questions incorrectes : ${incorrectQuestions.join(', ')}.`;
+            }
+        }
+
+        // Event listener for each submit button
+        document.querySelectorAll('.submitBtn').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const questionNumber = button.getAttribute('data-question');
+                checkAnswer(questionNumber);
+            });
+        });
+
+        // Reset functionality to reshuffle the answer options and reset the score
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            document.querySelectorAll('.message').forEach(message => {
+                message.innerHTML = ''; // Clear all messages
+            });
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+                input.disabled = false; // Re-enable the inputs
+            });
+            document.getElementById('scoreContainer').innerHTML = ''; // Clear score display
+            incorrectQuestions.length = 0; // Reset incorrect questions list
+            correctCount = 0; // Reset correct answers count
+            renderAllChoices(); // Shuffle and re-render all answer choices
+        });
+
+        // Initial rendering of answer choices
+        renderAllChoices();
+    </script>
+
+</body>
+</html>
+
+
+
