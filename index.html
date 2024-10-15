@@ -387,48 +387,65 @@
             ],
 
             10: [
-                { text: "five years, or since inception if the firm has been in existence for less than five years." },
-                { text: "two years, or since inception if the firm has been in existence for less than two years." },
-                { text: "three years, or since inception if the firm has been in existence for less than three years." }
+                { text: "Loyalty." },
+                { text: "Preservation of Confidentiality." },
+                { text: "Additional Compensation Agreements." }
             ],
 
-            9: [
-                { text: "five years, or since inception if the firm has been in existence for less than five years." },
-                { text: "two years, or since inception if the firm has been in existence for less than two years." },
-                { text: "three years, or since inception if the firm has been in existence for less than three years." }
+            11: [
+                { text: "Yes." },
+                { text: ". No, because he had purchased his own copy." },
+                { text: "No, because both had purchased their own copies." }
             ],
 
-            9: [
-                { text: "five years, or since inception if the firm has been in existence for less than five years." },
-                { text: "two years, or since inception if the firm has been in existence for less than two years." },
-                { text: "three years, or since inception if the firm has been in existence for less than three years." }
+            12: [
+                { text: "Yes." },
+                { text: "Yes, because he has a duty of loyalty to his employer." },
+                { text: "Yes, because bankruptcy represents a potential conflict of interest." }
             ],
 
-            9: [
-                { text: "five years, or since inception if the firm has been in existence for less than five years." },
-                { text: "two years, or since inception if the firm has been in existence for less than two years." },
-                { text: "three years, or since inception if the firm has been in existence for less than three years." }
+            13: [
+                { text: "No." },
+                { text: "Yes, with respect to diligence and reasonable basis." },
+                { text: "Yes, with respect to material nonpublic information." }
             ],
 
-            9: [
-                { text: "five years, or since inception if the firm has been in existence for less than five years." },
-                { text: "two years, or since inception if the firm has been in existence for less than two years." },
-                { text: "three years, or since inception if the firm has been in existence for less than three years." }
+            14: [
+                { text: "No." },
+                { text: "Yes, with respect to fair dealing." },
+                { text: "Yes, with respect to priority of transaction." }
             ],
 
-            9: [
-                { text: "five years, or since inception if the firm has been in existence for less than five years." },
-                { text: "two years, or since inception if the firm has been in existence for less than two years." },
-                { text: "three years, or since inception if the firm has been in existence for less than three years." }
+             15: [
+                { text: "No." },
+                { text: "Yes, with respect to suitability." },
+                { text: "Yes, with respect to diligence and a reasonable basis." }
             ],
 
+             16: [
+                { text: "alert CFA Institute." },
+                { text: "consult outside counsel." },
+                { text: "notify regulatory authorities." }
+            ],
+
+              17: [
+                { text: "No." },
+                { text: "Yes, with respect to loyalty." },
+                { text: "Yes, with respect to disclosure of conflicts." }
+            ],
+
+              18: [
+                { text: "No." },
+                { text: "Yes, with respect to conflict of interest." },
+                { text: "Yes, with respect to responsibilities of supervisors." }
+            ],
 
 
             
         };
 
         let correctCount = 0;
-        let totalQuestions = 4;
+        let totalQuestions = 18;
         let previousScore = null;
         const incorrectQuestions = [];
 
@@ -471,6 +488,20 @@
             renderChoices(2);
             renderChoices(3);
             renderChoices(4);
+            renderChoices(5);
+            renderChoices(6);
+            renderChoices(7);
+            renderChoices(8);
+            renderChoices(9);
+            renderChoices(10);
+            renderChoices(11);
+            renderChoices(12);
+            renderChoices(13);
+            renderChoices(14);
+            renderChoices(15);
+            renderChoices(16);
+            renderChoices(17);
+            renderChoices(18);
         }
 
         // Check the user's answer for a specific question
@@ -494,13 +525,59 @@
                     1: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
                     2: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
                     3: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
-                    4: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`
+                    4: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    5: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    6: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    7: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    8: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    9: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    10: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    11: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    12: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    13: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    14: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    15: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    16: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Suivez chapitre 4.`,
+                    17: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Explication: A member’s duties within an independent contractor relationship are governed by
+                                                                                            the oral or written agreement between the member and the client. Members
+                                                                                            should take care to define clearly the scope of the responsibilities and the
+                                                                                            expectations of each client within the context of each relationship. Members have
+                                                                                            a duty to abide by the terms of the agreement. .`,
+                    18: `Correct, c'est bien la réponse ${selectedOptionId}.<br>Explication : Members must make full and fair disclosure of all matters that could reasonably
+                                                                                                be expected to impair their independence and objectivity or interfere with
+                                                                                                respective duties. Draper should discuss outside his activities with his employer
+                                                                                                and come to mutual agreement regarding how to manage his personal
+                                                                                                commitments with his responsibilities to his employer. .`
+                  
                 },
                 incorrect: {
                     1: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
                     2: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
                     3: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
-                    4: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`
+                    4: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    5: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    6: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    7: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    8: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    9: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    10: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    11: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    12: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    13: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    14: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    15: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    16: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Révisez chapitre 4.`,
+                    17: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Explication: A member’s duties within an independent contractor relationship are governed by
+                                                                                                                the oral or written agreement between the member and the client. Members
+                                                                                                                should take care to define clearly the scope of the responsibilities and the
+                                                                                                                expectations of each client within the context of each relationship. Members have
+                                                                                                                a duty to abide by the terms of the agreement. .`,
+                    18: `C'est pas la bonne réponse, la bonne réponse est ${correctOptionId}.<br>Explication : Members must make full and fair disclosure of all matters that could reasonably
+                                                                                                                be expected to impair their independence and objectivity or interfere with
+                                                                                                                respective duties. Draper should discuss outside his activities with his employer
+                                                                                                                and come to mutual agreement regarding how to manage his personal
+                                                                                                                commitments with his responsibilities to his employer. .`
+                    
                 }
             };
 
